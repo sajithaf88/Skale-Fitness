@@ -8,10 +8,9 @@ Skale Fitness Management System is a web-based gym management application develo
 
 * Member Management
 * Trainer Management
-* Membership Plans
-* Workout Scheduling
+* Classes Scheduling
 * Attendance Tracking
-* Billing & Payments
+* Payments
 * Fitness Reports
 
 ## Technologies Used
