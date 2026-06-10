@@ -1,0 +1,285 @@
+﻿@using Microsoft.AspNetCore.Http
+
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="dashboard-title">Dashboard Overview</h2>
+
+<div class="cards">
+
+    <a asp-controller="Members" asp-action="Index" class="card blue">
+        <div class="icon">👥</div>
+        <div class="title">Members</div>
+        <div class="number counter" data-target="@(ViewBag.MemberCount ?? 0)">0</div>
+    </a>
+
+    <a asp-controller="Trainers" asp-action="Index" class="card green">
+        <div class="icon">🏋️</div>
+        <div class="title">Trainers</div>
+        <div class="number counter" data-target="@(ViewBag.TrainerCount ?? 0)">0</div>
+    </a>
+
+    <a asp-controller="Classes" asp-action="Index" class="card orange">
+        <div class="icon">📅</div>
+        <div class="title">Classes</div>
+        <div class="number counter" data-target="@(ViewBag.ClassCount ?? 0)">0</div>
+    </a>
+
+    <div class="card purple">
+        <div class="icon">💰</div>
+        <div class="title">Revenue</div>
+        <div class="number">₹@(ViewBag.Revenue ?? 0)</div>
+    </div>
+
+</div>
+
+<div class="charts">
+
+    <div class="chart-box">
+        <h3>New Members (Last 7 Days)</h3>
+        <canvas id="barChart"></canvas>
+    </div>
+
+    <div class="chart-box">
+        <h3>Gender Distribution</h3>
+        <canvas id="donutChart"></canvas>
+    </div>
+
+</div>
+
+<div class="charts">
+
+    <div class="chart-box">
+        <h3>Monthly Revenue</h3>
+        <canvas id="revenueChart"></canvas>
+    </div>
+
+    <div class="chart-box">
+        <h3>Recent Members</h3>
+
+        <table class="recent-table">
+
+            <tr>
+                <th>Name</th>
+                <th>Gender</th>
+            </tr>
+
+            @if (ViewBag.RecentMembers != null)
+            {
+                foreach (var m in ViewBag.RecentMembers)
+                {
+                    <tr>
+                        <td>@m.Name</td>
+                        <td>@m.Gender</td>
+                    </tr>
+                }
+            }
+
+        </table>
+
+    </div>
+
+</div>
+
+<style>
+
+    body {
+        background: #0f172a;
+        font-family: 'Segoe UI';
+        color: white;
+    }
+
+    .dashboard-title {
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+
+    .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+        gap: 25px;
+        margin-top: 20px;
+    }
+
+    .card {
+        padding: 25px;
+        border-radius: 14px;
+        text-align: center;
+        transition: .3s;
+        box-shadow: 0 6px 20px rgba(0,0,0,.35);
+        text-decoration: none;
+        color: white;
+    }
+
+        .card:hover {
+            transform: translateY(-6px);
+        }
+
+    .icon {
+        font-size: 32px;
+        margin-bottom: 10px;
+    }
+
+    .title {
+        font-size: 16px;
+        opacity: .9;
+    }
+
+    .number {
+        font-size: 30px;
+        font-weight: bold;
+    }
+
+    .blue {
+        background: linear-gradient(135deg,#3b82f6,#2563eb);
+    }
+
+    .green {
+        background: linear-gradient(135deg,#22c55e,#16a34a);
+    }
+
+    .orange {
+        background: linear-gradient(135deg,#f59e0b,#d97706);
+    }
+
+    .purple {
+        background: linear-gradient(135deg,#a855f7,#7c3aed);
+    }
+
+    .charts {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-top: 40px;
+    }
+
+    .chart-box {
+        background: #020617;
+        padding: 25px;
+        border-radius: 14px;
+        box-shadow: 0 6px 20px rgba(0,0,0,.4);
+    }
+
+    canvas {
+        background: #0f172a;
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    .recent-table {
+        width: 100%;
+        margin-top: 10px;
+        border-collapse: collapse;
+    }
+
+        .recent-table th,
+        .recent-table td {
+            padding: 10px;
+            border-bottom: 1px solid #1e293b;
+        }
+
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+    /* COUNTER ANIMATION */
+
+    document.querySelectorAll('.counter').forEach(counter=>{
+
+    counter.innerText='0';
+
+    const update=()=>{
+
+    const target=+counter.getAttribute('data-target');
+    const c=+counter.innerText;
+
+    const increment=target/50;
+
+    if(c<target){
+    counter.innerText=Math.ceil(c+increment);
+    setTimeout(update,20);
+    }
+    else{
+    counter.innerText=target;
+    }
+
+    };
+
+    update();
+
+    });
+
+
+    /* BAR CHART */
+
+    var membersData=@Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewBag.NewMembers ?? new int[] { 0, 0, 0, 0, 0 }));
+
+    new Chart(document.getElementById('barChart'),{
+
+    type:'bar',
+
+    data:{
+    labels:['Mon','Tue','Wed','Thu','Fri'],
+    datasets:[{
+    label:'New Members',
+    data:membersData,
+    backgroundColor:'#3b82f6'
+    }]
+    },
+
+    options:{
+    responsive:true
+    }
+
+    });
+
+
+    /* DONUT CHART */
+
+    new Chart(document.getElementById('donutChart'),{
+
+    type:'doughnut',
+
+    data:{
+    labels:['Male','Female'],
+    datasets:[{
+    data:[@(ViewBag.MaleCount ?? 0),@(ViewBag.FemaleCount ?? 0)],
+    backgroundColor:['#3b82f6','#ec4899']
+    }]
+    },
+
+    options:{
+    responsive:true
+    }
+
+    });
+
+
+    /* REVENUE CHART */
+
+    new Chart(document.getElementById('revenueChart'),{
+
+    type:'line',
+
+    data:{
+    labels:['Jan','Feb','Mar','Apr','May','Jun'],
+    datasets:[{
+    label:'Revenue',
+    data:[20000,30000,25000,40000,35000,50000],
+    borderColor:'#22c55e',
+    backgroundColor:'rgba(34,197,94,0.2)',
+    fill:true
+    }]
+    },
+
+    options:{
+    responsive:true
+    }
+
+    });
+
+</script>

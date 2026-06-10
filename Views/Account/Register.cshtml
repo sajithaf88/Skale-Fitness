@@ -1,0 +1,80 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register - Skale Fitness</title>
+
+    <style>
+        body {
+            background: linear-gradient(to right, #FFC107, #fff);
+            font-family: Arial;
+        }
+
+        .register-box {
+            width: 350px;
+            background: white;
+            padding: 30px;
+            margin: 120px auto;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            border-radius: 10px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #FFC107;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="register-box">
+
+        <h2>Create Account</h2>
+        @if (ViewBag.Error != null)
+        {
+            <p style="color:red; text-align:center;">@ViewBag.Error</p>
+        }
+
+        <form method="post">
+
+            <input name="Username" placeholder="Username" required />
+
+            <input name="Email" type="email" placeholder="Email" required />
+
+            <input name="Password" type="password" placeholder="Password" required />
+
+            <select name="Role" required>
+                <option value="">-- Select Role --</option>
+                <option value="Admin">Admin</option>
+                <option value="Trainer">Trainer</option>
+                <option value="User">User</option>
+            </select>
+
+            <button type="submit">SIGN UP</button>
+
+        </form>
+
+        <a asp-action="Login">Already have an account? Login</a>
+
+    </div>
+
+</body>
+</html>

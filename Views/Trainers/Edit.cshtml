@@ -1,0 +1,92 @@
+﻿@model Trainer
+
+<style>
+    .form-box {
+        max-width: 500px;
+    }
+
+    label {
+        font-weight: 600;
+        display: block;
+        margin-top: 10px;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 8px;
+        margin-top: 4px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+    }
+
+    img {
+        margin-top: 10px;
+        border-radius: 50%;
+        border: 2px solid #ddd;
+    }
+
+    .btn-save {
+        background: #2563eb;
+        color: white;
+        padding: 8px 18px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-top: 15px;
+    }
+
+    .btn-back {
+        background: #6b7280;
+        color: white;
+        padding: 8px 18px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+
+    .btn-save:hover {
+        background: #1e40af;
+    }
+
+    .btn-back:hover {
+        background: #4b5563;
+    }
+</style>
+
+<h2>Edit Trainer</h2>
+
+<div class="form-box">
+    <form method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="TrainerId" />
+
+        <label>Name</label>
+        <input asp-for="Name" required />
+
+        <label>Specialization</label>
+        <input asp-for="Specialization" required />
+
+        <label>Phone</label>
+        <input asp-for="Phone" required />
+
+        <label>Status</label>
+        <select asp-for="Status" required>
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+        </select>
+
+        @if (!string.IsNullOrEmpty(Model.ImagePath))
+        {
+            <label>Current Photo</label>
+            <img src="~/images/trainers/@Model.ImagePath" width="100" height="100" />
+        }
+
+        <label>Change Photo</label>
+        <input type="file" name="ImageFile" />
+
+        <br />
+
+        <button type="submit" class="btn-save">Update</button>
+        <button type="button" class="btn-back" onclick="history.back()">Back</button>
+    </form>
+</div>

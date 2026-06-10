@@ -1,0 +1,125 @@
+﻿@model IEnumerable<SkaleFitnessMVC.Models.FitnessClass>
+
+@using Microsoft.AspNetCore.Http
+@{
+    var role = Context.Session.GetString("Role");
+}
+
+<style>
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .btn {
+        padding: 6px 12px;
+        border-radius: 6px;
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+        margin-right: 4px;
+        display: inline-block;
+    }
+
+    .btn-add {
+        background: #22c55e;
+    }
+
+    .btn-details {
+        background: #1f2937;
+    }
+
+    .btn-edit {
+        background: #2563eb;
+    }
+
+    .btn-delete {
+        background: #dc2626;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    th, td {
+        padding: 12px;
+        border-bottom: 1px solid #e5e7eb;
+        text-align: center;
+    }
+
+    th {
+        background: #f3f4f6;
+        font-weight: 600;
+    }
+
+    tr:hover {
+        background: #f9fafb;
+    }
+</style>
+
+<h2>Fitness Classes</h2>
+
+<div class="page-header">
+    <span></span>
+
+   
+    @if (role == "Admin")
+    {
+        <a class="btn btn-add" asp-action="Create">+ Add Class</a>
+    }
+    
+
+</div>
+
+<table>
+    <tr>
+        <th>Class ID</th>
+        <th>Class Name</th>
+        <th>Trainer ID</th>
+        <th>Actions</th>
+    </tr>
+
+    
+    @foreach (var c in Model)
+    {
+        <tr>
+            <td>@c.FitnessClassId</td>
+            <td>@c.ClassName</td>
+            <td>@c.TrainerId</td>
+
+            <td>
+
+                <a class="btn btn-details"
+                   asp-action="Details"
+                   asp-route-id="@c.FitnessClassId">
+                    View
+                </a>
+
+                @if (role == "Admin")
+                {
+                    <a class="btn btn-edit"
+                       asp-action="Edit"
+                       asp-route-id="@c.FitnessClassId">
+                        Edit
+                    </a>
+
+                    <a class="btn btn-delete"
+                       asp-action="Delete"
+                       asp-route-id="@c.FitnessClassId">
+                        Delete
+                    </a>
+                }
+
+            </td>
+        </tr>
+    }
+    
+
+</table>

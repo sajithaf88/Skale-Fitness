@@ -1,0 +1,86 @@
+﻿@model IEnumerable<SkaleFitnessMVC.Models.Attendance>
+
+<h2>Attendance Report</h2>
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        margin-top: 15px;
+    }
+
+    th, td {
+        padding: 12px;
+        border-bottom: 1px solid #e5e7eb;
+        text-align: center;
+    }
+
+    th {
+        background: #f3f4f6;
+        font-weight: 600;
+    }
+
+    tr:hover {
+        background: #f9fafb;
+    }
+
+    .print-actions {
+        margin-top: 20px;
+    }
+
+    .btn-print {
+        background: #22c55e;
+        color: white;
+        padding: 8px 18px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+    .btn-back {
+        background: #6b7280;
+        color: white;
+        padding: 8px 18px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    @@media print {
+        .print-actions
+
+    {
+        display: none;
+    }
+
+    }
+</style>
+
+<table>
+    <tr>
+        <th>Member ID</th>
+        <th>Class ID</th>
+        <th>Date</th>
+        <th>Status</th>
+    </tr>
+
+    @foreach (var a in Model)
+    {
+        <tr>
+            <td>@a.MemberId</td>
+            <td>@a.FitnessClassId</td>
+            <td>@a.AttendanceDate.ToShortDateString()</td>
+            <td>@a.Status</td>
+        </tr>
+    }
+</table>
+
+<div class="print-actions">
+    <button class="btn-print" onclick="window.print()">Print</button>
+    <button class="btn-back" onclick="history.back()">Back</button>
+</div>

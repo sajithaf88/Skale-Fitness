@@ -1,0 +1,78 @@
+﻿@model SkaleFitnessMVC.Models.FitnessClass
+
+<style>
+    .form-box {
+        max-width: 450px;
+        background: #f9fafb;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+
+    label {
+        font-weight: 600;
+        display: block;
+        margin-top: 10px;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 8px;
+        margin-top: 4px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+    }
+
+    .btn-save {
+        background: #22c55e;
+        color: white;
+        padding: 8px 18px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-top: 15px;
+    }
+
+    .btn-back {
+        background: #6b7280;
+        color: white;
+        padding: 8px 18px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+
+    .btn-save:hover {
+        background: #16a34a;
+    }
+
+    .btn-back:hover {
+        background: #4b5563;
+    }
+</style>
+
+<h2>Add Fitness Class</h2>
+
+<div class="form-box">
+    <form method="post">
+
+        <label>Class Name</label>
+        <input asp-for="ClassName" placeholder="Enter class name" required />
+
+        <label>Trainer</label>
+        <select asp-for="TrainerId" required>
+            <option value="">-- Select Trainer --</option>
+            @foreach (var t in ViewBag.Trainers)
+            {
+                <option value="@t.TrainerId">@t.Name</option>
+            }
+        </select>
+
+        <br />
+
+        <button type="submit" class="btn-save">Save</button>
+        <button type="button" class="btn-back" onclick="history.back()">Back</button>
+
+    </form>
+</div>

@@ -1,0 +1,64 @@
+﻿@model SkaleFitnessMVC.Models.Attendance
+
+<style>
+    .box {
+        max-width: 450px;
+        background: #fee2e2;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    p {
+        font-size: 15px;
+        margin-bottom: 15px;
+    }
+
+    .btn-delete {
+        background: #dc2626;
+        color: white;
+        padding: 8px 18px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+        .btn-delete:hover {
+            background: #b91c1c;
+        }
+
+    .btn-cancel {
+        background: #6b7280;
+        color: white;
+        padding: 8px 18px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+
+        .btn-cancel:hover {
+            background: #4b5563;
+        }
+</style>
+
+<h2>Delete Attendance</h2>
+
+<div class="box">
+    <p>
+        Are you sure you want to delete attendance record
+        <b>#@Model.AttendanceId</b>?
+    </p>
+
+    <p>
+        <b>Date:</b> @Model.AttendanceDate.ToShortDateString() <br />
+        <b>Status:</b> @Model.Status
+    </p>
+
+    <form method="post" asp-action="Delete">
+        <input type="hidden" asp-for="AttendanceId" />
+
+        <button type="submit" class="btn-delete">Yes, Delete</button>
+        <button type="button" class="btn-cancel" onclick="history.back()">Cancel</button>
+    </form>
+</div>

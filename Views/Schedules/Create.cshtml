@@ -1,0 +1,37 @@
+﻿@model SkaleFitnessMVC.Models.Schedule
+
+<h2>Add Schedule</h2>
+
+<form method="post">
+
+    <div>
+        <label>Class</label><br />
+        <select asp-for="FitnessClassId">
+            @foreach (var c in ViewBag.Classes)
+            {
+                <option value="@c.FitnessClassId">@c.ClassName</option>
+            }
+        </select>
+    </div>
+
+    <div>
+        <label>Date</label><br />
+        <input asp-for="Date" type="date" />
+    </div>
+
+    <div>
+        <label>Start Time</label><br />
+        <input asp-for="StartTime" type="time" />
+    </div>
+
+    <div>
+        <label>End Time</label><br />
+        <input asp-for="EndTime" type="time" />
+    </div>
+
+    <br />
+    <button type="submit">Save</button>
+</form>
+
+<br />
+<a href="/Schedules">Back to List</a>

@@ -1,0 +1,84 @@
+﻿@model Member
+
+<style>
+    .form-box {
+        max-width: 500px;
+        background: #f9fafb;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+
+    label {
+        font-weight: 600;
+        display: block;
+        margin-top: 10px;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 8px;
+        margin-top: 4px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+    }
+
+    .btn-update {
+        background: #2563eb;
+        color: white;
+        padding: 8px 18px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-top: 15px;
+    }
+
+    .btn-back {
+        background: #6b7280;
+        color: white;
+        padding: 8px 18px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+
+    .btn-update:hover {
+        background: #1e40af;
+    }
+
+    .btn-back:hover {
+        background: #4b5563;
+    }
+</style>
+
+<h2>Edit Member</h2>
+
+<div class="form-box">
+    <form method="post">
+        <input type="hidden" asp-for="MemberId" />
+
+        <label>Name</label>
+        <input asp-for="Name" required />
+
+        <label>Email</label>
+        <input asp-for="Email" required />
+
+        <label>Phone</label>
+        <input asp-for="Phone" required />
+
+        <label>Gender</label>
+        <select asp-for="Gender" required>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+
+        <label>Status</label>
+        <input asp-for="Status" required />
+
+        <br />
+
+        <button type="submit" class="btn-update">Update</button>
+        <button type="button" class="btn-back" onclick="history.back()">Back</button>
+    </form>
+</div>

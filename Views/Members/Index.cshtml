@@ -1,0 +1,97 @@
+﻿@model IEnumerable<Member>
+
+<style>
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    th, td {
+        padding: 12px;
+        border-bottom: 1px solid #e5e7eb;
+        vertical-align: middle;
+    }
+
+    th {
+        background: #f3f4f6;
+        text-align: left;
+        font-weight: 600;
+    }
+
+    tr:hover {
+        background: #f9fafb;
+    }
+
+    .btn {
+        padding: 6px 12px;
+        border-radius: 6px;
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+        margin-right: 4px;
+        display: inline-block;
+    }
+
+    .btn-add {
+        background: #22c55e;
+    }
+
+    .btn-view {
+        background: #1f2937;
+    }
+
+    .btn-edit {
+        background: #2563eb;
+    }
+
+    .btn-delete {
+        background: #dc2626;
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+    }
+</style>
+
+<h2>Members</h2>
+
+<div class="page-header">
+    <span></span>
+    <a class="btn btn-add" asp-action="Create">+ Add Member</a>
+</div>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var m in Model)
+    {
+        <tr>
+            <td>@m.Name</td>
+            <td>@m.Email</td>
+            <td>@m.Phone</td>
+            <td>@m.Status</td>
+            <td>
+                <a class="btn btn-view" asp-action="Details" asp-route-id="@m.MemberId">View</a>
+                <a class="btn btn-edit" asp-action="Edit" asp-route-id="@m.MemberId">Edit</a>
+                <a class="btn btn-delete" asp-action="Delete" asp-route-id="@m.MemberId">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
